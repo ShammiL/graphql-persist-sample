@@ -44,20 +44,24 @@ service class EmployeeService {
 
 service on new graphql:Listener(9000) {
 
-    # A resource for generating greetings
-    # + id - the input string id
-    # + return - string name with hello message or error
     resource function get employeeById(string id) returns EmployeeService|error {
         return getEmployeeById(id);
     }
 
-    // resource function get allEmployees() returns EmployeeData[] {
-
-    // }
     remote function addEmployee(string first_name, string last_name, string email, 
                                     string phone, string job_title) 
                                     returns string|error {
         return addEmployeeData(first_name, last_name, email, phone, job_title);
 
+    }
+
+    remote function updateEmployee(string employee_id, string first_name, string last_name, string job_title) 
+                                    returns EmployeeService|error {
+        return updateEmployeeData(employee_id, first_name, last_name, job_title);
+
+    }
+
+    remote function deleteEmployee(string employee_id) returns EmployeeService|error {
+        return deleteEmployeeData(employee_id);
     }
 }

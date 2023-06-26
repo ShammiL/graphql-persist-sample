@@ -5,8 +5,6 @@ Client sClient = check new();
 
 public function addEmployeeData(string first_name, string last_name, string email, 
                                     string phone, string job_title) returns string|error {
-    io:println("Hello, World!");
-
      EmployeeInsert employee1 = {
        employee_id: uuid:createType4AsString(),
        first_name,
@@ -20,11 +18,6 @@ public function addEmployeeData(string first_name, string last_name, string emai
    string[] employeeIds = check sClient->/employees.post([employee1]);
    io:println("Inserted employee id: " + employeeIds[0]);
    return employeeIds[0];
-
-    // string empId = "e0473646-cf97-4cf0-8cb5-8b5960db8c70";
-    // Employee employee = check sClient->/employees/[empId];
-    // io:println(employee);
-
 }
 
 public function getEmployeeById(string id) returns EmployeeService|error{
@@ -33,3 +26,20 @@ public function getEmployeeById(string id) returns EmployeeService|error{
     EmployeeService employeeService =  new (employee);
     return employeeService;
 } 
+
+public function updateEmployeeData(string id, string first_name, string last_name, string job_title) returns EmployeeService|error {
+    Employee employee = check sClient->/employees/[id].put({
+            first_name,
+            last_name,
+            job_title
+        });
+    EmployeeService employeeService =  new (employee);
+    return employeeService;
+}
+
+public function deleteEmployeeData(string id) returns EmployeeService|error {
+    Employee employee = check sClient->/employees/[id].delete();
+    io:println(string `Deleted employee record: ${employee.toString()}`);
+    EmployeeService employeeService =  new (employee);
+    return employeeService;
+}
