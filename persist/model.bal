@@ -1,10 +1,18 @@
 import ballerina/persist as _;
 
 public type Employee record {|
-   readonly string employee_id;
-   string first_name;
-   string last_name;
-   string email;
-   string phone;
-   string job_title;
+    readonly string employeeId;
+    string firstName;
+    string lastName;
+    string email;
+    string phone;
+    string jobTitle;
+    Department department; // 1-n relationship
+|};
+
+public type Department record {|
+   readonly string departmentId;
+   string name;
+   string description;
+   Employee[] employees;
 |};
